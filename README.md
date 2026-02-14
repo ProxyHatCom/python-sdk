@@ -2,8 +2,9 @@
 
 The official Python SDK for the [ProxyHat](https://proxyhat.com?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=hero) residential proxy API.
 
-[![CI](https://github.com/ProxyHatCom/proxyhat-python/actions/workflows/ci.yml/badge.svg)](https://github.com/ProxyHatCom/proxyhat-python/actions/workflows/ci.yml)
+[![CI](https://github.com/ProxyHatCom/python-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/ProxyHatCom/python-sdk/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/proxyhat)](https://pypi.org/project/proxyhat/)
+[![Python](https://img.shields.io/pypi/pyversions/proxyhat)](https://pypi.org/project/proxyhat/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Features
@@ -106,6 +107,12 @@ See the [Error Handling Guide](https://docs.proxyhat.com/errors?utm_source=githu
 - [Getting Started](https://docs.proxyhat.com?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=getting-started)
 - [API Reference](https://docs.proxyhat.com/api/auth?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=api-reference)
 - [Full Documentation](https://docs.proxyhat.com?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=docs-home)
+
+## Links
+
+- [ProxyHat](https://proxyhat.com?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=links) — Residential & mobile proxy network
+- [Dashboard](https://dashboard.proxyhat.com?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=links) — Manage proxies, sub-users, and API keys
+- [GitHub](https://github.com/ProxyHatCom/python-sdk) — Source code & issue tracker
 
 ## License
 

@@ -28,8 +28,8 @@ dependencies = ["httpx>=0.24.0"]
 [project.urls]
 Homepage = "https://proxyhat.com"
 Documentation = "https://docs.proxyhat.com"
-Repository = "https://github.com/ProxyHatCom/proxyhat-python"
-Changelog = "https://github.com/ProxyHatCom/proxyhat-python/blob/main/CHANGELOG.md"
+Repository = "https://github.com/ProxyHatCom/python-sdk"
+Changelog = "https://github.com/ProxyHatCom/python-sdk/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [
