@@ -5,6 +5,7 @@ from typing import Any
 import httpx
 
 from proxyhat._base_client import DEFAULT_BASE_URL, DEFAULT_TIMEOUT, BaseClientConfig, _parse_json_body
+from proxyhat.connection import ProxyProtocol, build_connection_url
 from proxyhat.resources.analytics import AsyncAnalyticsResource
 from proxyhat.resources.auth import AsyncAuthResource
 from proxyhat.resources.coupons import AsyncCouponsResource
@@ -13,6 +14,7 @@ from proxyhat.resources.locations import AsyncLocationsResource
 from proxyhat.resources.payments import AsyncPaymentsResource
 from proxyhat.resources.plans import AsyncPlansResource
 from proxyhat.resources.profile import AsyncProfileResource
+from proxyhat.resources.proxy_descriptors import AsyncProxyDescriptorsResource
 from proxyhat.resources.proxy_presets import AsyncProxyPresetsResource
 from proxyhat.resources.sub_user_groups import AsyncSubUserGroupsResource
 from proxyhat.resources.sub_users import AsyncSubUsersResource
@@ -37,12 +39,52 @@ class AsyncProxyHat:
         self.locations = AsyncLocationsResource(self)
         self.analytics = AsyncAnalyticsResource(self)
         self.proxy_presets = AsyncProxyPresetsResource(self)
+        self.proxy_descriptors = AsyncProxyDescriptorsResource(self)
         self.profile = AsyncProfileResource(self)
         self.two_factor = AsyncTwoFactorResource(self)
         self.email = AsyncEmailResource(self)
         self.coupons = AsyncCouponsResource(self)
         self.plans = AsyncPlansResource(self)
         self.payments = AsyncPaymentsResource(self)
+
+    async def connection_url(
+        self,
+        *,
+        sub_user: str | None = None,
+        country: str | None = None,
+        region: str | None = None,
+        city: str | None = None,
+        sticky: bool | str | None = None,
+        filter: str | None = None,
+        protocol: ProxyProtocol = "http",
+    ) -> str:
+        """Return a ready-to-use residential proxy URL (see ``ProxyHat.connection_url``)."""
+        users = await self.sub_users.list()
+        want = sub_user.strip() if sub_user else None
+        if want:
+            chosen = next((s for s in users if s.uuid == want or s.name == want), None)
+        else:
+            usable = [
+                s for s in users if not s.suspended_at and (s.traffic_limit == 0 or s.used_traffic < s.traffic_limit)
+            ]
+            chosen = usable[0] if usable else None
+        if chosen is None or not chosen.proxy_username or not chosen.proxy_password:
+            raise ValueError(
+                f'No sub-user matched "{want}" (or it has no proxy credentials).'
+                if want
+                else "No usable sub-user found (all suspended or out of traffic). "
+                "Create one, top up, or pass sub_user=."
+            )
+        return build_connection_url(
+            username=chosen.proxy_username,
+            password=chosen.proxy_password,
+            country=country,
+            region=region,
+            city=city,
+            sticky=sticky,
+            filter=filter,
+            protocol=protocol,
+        )
 
     async def request(
         self,

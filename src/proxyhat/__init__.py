@@ -2,6 +2,13 @@
 
 from proxyhat.async_client import AsyncProxyHat
 from proxyhat.client import ProxyHat
+from proxyhat.connection import (
+    PROXYHAT_GATEWAY,
+    PROXYHAT_PORT_HTTP,
+    PROXYHAT_PORT_SOCKS5,
+    build_connection_url,
+    build_proxy_username,
+)
 from proxyhat.errors import (
     APIError,
     AuthenticationError,
@@ -13,6 +20,9 @@ from proxyhat.errors import (
 )
 
 __all__ = [
+    "PROXYHAT_GATEWAY",
+    "PROXYHAT_PORT_HTTP",
+    "PROXYHAT_PORT_SOCKS5",
     "APIError",
     "AsyncProxyHat",
     "AuthenticationError",
@@ -22,6 +32,8 @@ __all__ = [
     "ProxyHatError",
     "RateLimitError",
     "ValidationError",
+    "build_connection_url",
+    "build_proxy_username",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

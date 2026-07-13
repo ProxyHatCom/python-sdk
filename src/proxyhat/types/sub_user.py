@@ -17,6 +17,10 @@ class SubUser:
     notes: str | None
     sub_user_group_id: str | None
     created_at: str
+    # Gateway password: present on list/get, masked for suspended/deleting sub-users.
+    proxy_password: str | None = None
+    # ISO timestamp when the sub-user was suspended (traffic overage), else None.
+    suspended_at: str | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> SubUser:
@@ -32,6 +36,8 @@ class SubUser:
             notes=data.get("notes"),
             sub_user_group_id=data.get("sub_user_group_id"),
             created_at=data.get("created_at", ""),
+            proxy_password=data.get("proxy_password"),
+            suspended_at=data.get("suspended_at"),
         )
 
 

@@ -9,7 +9,9 @@ The official Python SDK for the [ProxyHat](https://proxyhat.com?utm_source=githu
 
 ## Features
 
+- **One-call proxy connection** — `client.connection_url()` turns your API key into a ready-to-use residential proxy URL
 - Full coverage of the ProxyHat API
+- Local gateway URL builder (`build_connection_url`) — no network needed
 - Sync (`ProxyHat`) and async (`AsyncProxyHat`) clients
 - Typed responses using dataclasses
 - Comprehensive error handling with typed exceptions
@@ -58,6 +60,47 @@ async def main():
 asyncio.run(main())
 ```
 
+## Connecting to a proxy
+
+From an API key to actually routing traffic in one call — the SDK looks up an active sub-user and builds the gateway URL for you:
+
+```python
+from proxyhat import ProxyHat
+
+proxy = ProxyHat(api_key="ph_your_api_key")
+
+# Rotating residential IP, US exit:
+url = proxy.connection_url(country="us")
+# → http://<user>-country-us:<pass>@gate.proxyhat.com:8080
+
+# Sticky session (same IP for 30m), city-targeted, SOCKS5:
+sticky = proxy.connection_url(country="de", city="berlin", sticky="30m", protocol="socks5")
+
+# Use it with any HTTP client:
+import httpx
+resp = httpx.get("https://api.ipify.org", proxy=url)
+```
+
+**Offline builder** — if you already have a sub-user's credentials, build the URL with no network call:
+
+```python
+from proxyhat import build_connection_url
+
+url = build_connection_url(username="ph-8f2a1c", password="PxSecret123", country="gb", filter="high")
+```
+
+**Server-built descriptor** — let the API assemble it (validates the sub-user is active):
+
+```python
+d = proxy.proxy_descriptors.create(
+    sub_user_uuid=user.uuid,
+    protocol="http",
+    location={"country": "us", "city": "new_york"},
+    session={"mode": "sticky", "ttl": "30m"},
+)
+print(d.url)
+```
+
 ## Authentication
 
 Get your API key from the [ProxyHat Dashboard](https://dashboard.proxyhat.com/register?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=signup).
@@ -74,6 +117,8 @@ See the [Authentication Guide](https://docs.proxyhat.com/authentication?utm_sour
 | `client.locations` | `countries`, `regions`, `cities`, `isps`, `zipcodes` |
 | `client.analytics` | `traffic`, `traffic_total`, `requests`, `requests_total`, `domain_breakdown` |
 | `client.proxy_presets` | `list`, `create`, `get`, `update`, `delete` |
+| `client.proxy_descriptors` | `create` |
+| `client.connection_url(...)` | build a ready proxy URL from an active sub-user |
 | `client.profile` | `get_preferences`, `update_preferences`, `list_api_keys`, `create_api_key`, `delete_api_key`, `regenerate_api_key` |
 | `client.two_factor` | `status`, `enable`, `confirm`, `disable`, `qr_code`, `recovery_codes`, `disable_by_recovery`, `change_password` |
 | `client.email` | `request_change`, `confirm_change`, `cancel_change`, `resend_verification` |
