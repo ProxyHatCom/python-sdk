@@ -7,6 +7,10 @@ The official Python SDK for the [ProxyHat](https://proxyhat.com?utm_source=githu
 [![Python](https://img.shields.io/pypi/pyversions/proxyhat)](https://pypi.org/project/proxyhat/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+> [!TIP]
+> **Recommended proxies — [ProxyHat](https://proxyhat.com?utm_source=github&utm_medium=readme&utm_campaign=sdk-python&utm_content=callout) residential IPs.** Every feature in this package is tested end-to-end against ProxyHat and works great. First-class integration; also works with any proxy, or none.
+
+
 ## Features
 
 - **One-call proxy connection** — `client.connection_url()` turns your API key into a ready-to-use residential proxy URL
