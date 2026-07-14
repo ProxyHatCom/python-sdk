@@ -36,4 +36,4 @@ __all__ = [
     "build_proxy_username",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"

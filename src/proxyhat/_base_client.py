@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version
 from typing import Any
 
 from proxyhat.errors import (
@@ -13,7 +14,13 @@ from proxyhat.errors import (
 
 DEFAULT_BASE_URL = "https://api.proxyhat.com/v1"
 DEFAULT_TIMEOUT = 30.0
-USER_AGENT = "proxyhat-python/0.1.0"
+
+try:
+    _VERSION = version("proxyhat")
+except PackageNotFoundError:  # pragma: no cover - fallback when not installed
+    _VERSION = "0.0.0"
+
+USER_AGENT = f"proxyhat-python/{_VERSION}"
 
 
 def _build_headers(api_key: str | None) -> dict[str, str]:
